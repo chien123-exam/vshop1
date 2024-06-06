@@ -7,7 +7,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -27,13 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::group(['prefix'=>'admin', 'middleware' => 'redirectAdmin' ], function() {
+Route::group(['prefix' => 'admin', 'middleware' => 'redirectAdmin'], function () {
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('login', [AdminAuthController::class, 'login'])->name('admin.login.post');
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 });
 
-Route::middleware(['auth','admin'])->prefix('admin')->group(function() {
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 
